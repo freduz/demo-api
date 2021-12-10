@@ -1,51 +1,16 @@
 const express = require('express');
+const {
+  getAllUsers,
+  getUser,
+  createUser,
+  deleteUser,
+  updateUser,
+} = require('../controllers/userController');
 
-const route = express.Router();
+const router = express.Router();
 
-route
-  .route('/')
-  .get((req, res) => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  })
-  .post((req, res) => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  });
+router.route('/').get(getAllUsers).post(createUser);
 
-route
-  .route('/:id')
-  .get((req, res) => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  })
-  .delete((req, res) => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  })
-  .patch((req, res) => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  });
+router.route('/:id').get(getUser).delete(deleteUser).patch(updateUser);
 
-module.exports = route;
+module.exports = router;
