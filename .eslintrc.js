@@ -1,8 +1,7 @@
 module.exports = {
-  extends: [
-    'airbnb-base',
-  ],
+  extends: ['airbnb-base'],
   plugins: ['prettier'],
   rules: {
+    'no-console': 'off',
   },
 };
