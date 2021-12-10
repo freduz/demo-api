@@ -1,5 +1,7 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -20,6 +22,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 8,
     required: [true, 'Please provide the password'],
+    select: false,
   },
   confirmPassword: {
     type: String,
@@ -31,17 +34,41 @@ const userSchema = new mongoose.Schema({
     },
   },
   mobile: {
-    type: Number,
+    type: String,
     required: [true, 'Please provide the mobile number'],
     validate: {
-      validator: validator.isMobilePhone({ options: ['en-IN'] }),
-      message: 'Please provide the valid phone number',
+      validator(el) {
+        return validator.isMobilePhone(el, 'en-IN');
+      },
+      message: 'Please provide the valid mobile number',
     },
   },
   countryCode: {
     type: String,
     required: [true, 'should provide the country code'],
   },
+  role: {
+    type: String,
+    required: true,
+    default: 'user',
+    enum: ['admin', 'user'],
+  },
+});
+
+userSchema.methods.checkPassword = async function (
+  hashedPassword,
+  plainPassword
+) {
+  // eslint-disable-next-line no-return-await
+  return await bcrypt.compare(hashedPassword, plainPassword);
+};
+
+// eslint-disable-next-line consistent-return
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.confirmPassword = undefined;
+  next();
 });
 
 module.exports = mongoose.model('User', userSchema);

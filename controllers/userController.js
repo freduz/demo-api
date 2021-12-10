@@ -1,67 +1,17 @@
-/* eslint-disable object-curly-newline */
-const createUser = async (req, res) => {
-  try {
-    res.status(201).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const User = require('../models/user');
+const catchAsync = require('../utils/catchAsync');
+const factoryMethods = require('./handlerFactory');
 
-const getAllUsers = async (req, res) => {
-  try {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const getAllUsers = factoryMethods.getAllDocument(User);
+const getUser = factoryMethods.getDocument(User);
+const deleteUser = factoryMethods.deleteDocument(User);
+const updateUser = factoryMethods.updateDocument(User);
+const createUser = factoryMethods.createDocument(User);
 
-const getUser = async (req, res) => {
-  try {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
+module.exports = {
+  getAllUsers,
+  getUser,
+  deleteUser,
+  updateUser,
+  createUser,
 };
-
-const deleteUser = async (req, res) => {
-  try {
-    res.status(204).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const updateUser = async (req, res) => {
-  try {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-module.exports = { createUser, getAllUsers, getUser, deleteUser, updateUser };
